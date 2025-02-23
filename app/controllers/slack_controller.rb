@@ -28,7 +28,6 @@ class SlackController < ApplicationController
     private
   
     # Open a modal for declaring an incident
-    # Open a modal for declaring an incident
     def open_incident_modal(trigger_id)
         modal_view = {
           trigger_id: trigger_id,
@@ -73,8 +72,10 @@ class SlackController < ApplicationController
                   placeholder: {
                     type: 'plain_text',
                     text: 'Enter description (optional)'
-                  }
-                }
+                  },
+                  multiline: true
+                },
+                optional: true
               },
               {
                 type: 'input',
@@ -113,7 +114,8 @@ class SlackController < ApplicationController
                       value: 'sev2'
                     }
                   ]
-                }
+                },
+                optional: true
               }
             ]
           }
@@ -136,19 +138,24 @@ class SlackController < ApplicationController
     def handle_incident_submission(payload)
         # Extract values from the modal submission using the correct keys
         title = payload.dig("view", "state", "values", "title_block", "title_input", "value")
-        description = payload.dig("view", "state", "values", "description_block", "description_input", "value")
-        severity = payload.dig("view", "state", "values", "severity_block", "severity_input", "selected_option", "value")
+        description = payload.dig("view", "state", "values", "description_block", "description_input", "value") || ""
+        severity = payload.dig("view", "state", "values", "severity_block", "severity_input", "selected_option", "value") || ""
+        user_id = payload.dig("user", "id")
+        trigger_id = payload.dig("trigger_id")
       
         # Check if the necessary fields are present to avoid nil errors
-        if title.nil? || severity.nil?
+        if title.nil?
           Rails.logger.error "Error: Missing title or severity in incident submission"
           render plain: "Error: Missing required fields", status: :unprocessable_entity
           return
         end
       
         # Create a private Slack channel for the incident
-        channel_id = create_slack_channel(title)
-      
+        channel_id = create_slack_channel(title, user_id)
+        
+        if channel_id.nil?
+            Rails.logger.warn("Failed to create Slack channel, proceeding without it.")
+        end
         # Create a new incident in the database
         incident = Incident.new(
           title: title,
@@ -159,34 +166,99 @@ class SlackController < ApplicationController
           status: 'active',
           declared_at: Time.now
         )
-      
         if incident.save
-          render plain: "Incident declared: #{title}", status: :ok
+            # Show a modal to confirm incident creation and link to the channel
+            show_confirmation_modal(trigger_id, title, channel_id)
         else
-          render plain: "Error declaring incident", status: :unprocessable_entity
+            render plain: "Error declaring incident", status: :unprocessable_entity
         end
     end
   
-    # Create a private Slack channel for the incident
-    def create_slack_channel(title)
+    def create_slack_channel(title, user_id)
       response = HTTParty.post("https://slack.com/api/conversations.create", 
         headers: {
           "Content-Type" => "application/json",
           "Authorization" => "Bearer #{ENV['SLACK_BOT_TOKEN']}"
         },
         body: {
-          name: "incident-#{SecureRandom.hex(5)}",
-          is_private: true
+          name: "incident-#{title.parameterize}-#{SecureRandom.hex(3)}",
+          is_private: false
         }.to_json
       )
-  
       if response['ok']
-        response['channel']['id']
+        channel_id = response['channel']['id']
+        invite_user_to_channel(channel_id, user_id)
       else
         Rails.logger.error("Error creating Slack channel: #{response['error']}")
         nil
       end
     end
+
+    def invite_user_to_channel(channel_id, user_id)
+        response = HTTParty.post("https://slack.com/api/conversations.invite", 
+          headers: {
+            "Content-Type" => "application/json",
+            "Authorization" => "Bearer #{ENV['SLACK_BOT_TOKEN']}"
+          },
+          body: {
+            channel: channel_id,
+            users: user_id # Use user_id passed dynamically
+          }.to_json
+        )
+      
+        # Log the full response for debugging
+        Rails.logger.info("Invite Response: #{response.body}")
+      
+        response['ok']
+    end
+
+    def show_confirmation_modal(trigger_id, title, channel_id)
+        view_payload = {
+          trigger_id: trigger_id,
+          view: {
+            type: "modal",
+            title: {
+              type: "plain_text",
+              text: "Incident Created"
+            },
+            blocks: [
+              {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text: "The incident *#{title}* has been successfully created."
+                }
+              },
+              {
+                type: "actions",
+                elements: [
+                  {
+                    type: "button",
+                    text: {
+                      type: "plain_text",
+                      text: "View Channel"
+                    },
+                    url: "https://slack.com/app_redirect?channel=#{channel_id}",
+                    action_id: "view_channel"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      
+        # Send the modal using Slack API
+        response = HTTParty.post("https://slack.com/api/views.open",
+          headers: {
+            "Content-Type" => "application/json",
+            "Authorization" => "Bearer #{ENV['SLACK_BOT_TOKEN']}"
+          },
+          body: view_payload.to_json
+        )
+      
+        Rails.logger.info("Slack Modal Response: #{response.body}")
+    end
+      
   
     # Resolve an incident in the Slack channel
     def resolve_incident_in_channel(channel_id)
