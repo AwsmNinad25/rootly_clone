@@ -47,8 +47,4 @@ class IncidentService
     )
     incident.save
   end
-
-  def confirm_incident_creation(channel_id)
-    SlackApi.open_modal(@trigger_id, confirmation_modal_payload(channel_id))
-  end
 end

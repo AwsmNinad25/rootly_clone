@@ -1,6 +1,6 @@
 # app/services/incident_modal.rb
 class IncidentModal
-    def self.build
+    def self.build(user_input)
       {
         type: 'modal',
         callback_id: 'incident_creation_modal',
@@ -26,7 +26,8 @@ class IncidentModal
               placeholder: {
                 type: 'plain_text',
                 text: 'Enter incident title'
-              }
+              },
+              initial_value: user_input || ''
             }
           },
           {
@@ -62,7 +63,8 @@ class IncidentModal
                 text: 'Select severity'
               },
               options: severity_options
-            }
+            },
+            optional: true
           }
         ]
       }
