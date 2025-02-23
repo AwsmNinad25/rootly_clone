@@ -1,0 +1,204 @@
+/* Incident Dashboard Heading */
+.incident-dashboard-heading {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    color: #6a4c93;
+    font-size: 2.5em;
+    margin-bottom: 40px;
+  }
+  
+  /* Incidents Container */
+  .incidents-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Incident Card */
+  .incident-card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    transition: transform 0.3s ease;
+  }
+  
+  .incident-card:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Incident Title */
+  .incident-title {
+    color: #6a4c93;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  /* Incident Description */
+  .incident-description {
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  /* Incident Severity */
+  .incident-severity {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 50%;
+    color: white;
+  }
+  
+  .severity-high {
+    background-color: #ff6b6b;
+  }
+  
+  .severity-medium {
+    background-color: #ffca3a;
+  }
+  
+  .severity-low {
+    background-color: #8ac926;
+  }
+  
+  /* Incident Status */
+  .incident-status {
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  .incident-status-active {
+    color: #ff6b6b;
+  }
+  
+  .incident-status-resolved {
+    color: #2ec4b6;
+    font-weight: bold;
+  }
+  
+  /* Incident Created By */
+  .incident-created-by {
+    color: #999;
+    margin-top: 5px;
+  }
+  
+/* Pagination Container */
+.pagination-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  /* Pagination Styling */
+  .pagination {
+    display: inline-block;
+  }
+  
+  /* Pagination Links - Unselected & Selected */
+  .pagination a, .pagination span {
+    color: #6a4c93;
+    padding: 8px 14px;
+    text-decoration: none;
+    margin: 0 -5px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    border: 1px solid transparent; /* Remove any borders */
+  }
+  
+  /* Hover effect for pagination links */
+  .pagination a:hover {
+    background-color: #6a4c93;
+    color: white;
+  }
+  
+  /* Styling the active/current page */
+  .pagination .current {
+    background-color: #6a4c93;
+    color: white;
+    font-weight: bold;
+    border: none; /* Remove border on active page */
+    cursor: default;
+  }
+  
+  /* Round design for all pagination elements */
+  .pagination a, .pagination span {
+    display: inline-block;
+    text-align: center;
+    line-height: 20px;
+  }
+  
+  /* Reduce gaps between pagination links */
+  .pagination {
+    gap: 3px;
+  }
+  /* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Adjust the width based on your design */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+  
+  /* Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .tooltip .tooltip-text {
+    visibility: hidden;
+    width: 200px; /* Adjust width if needed */
+    background-color: #6a4c93;
+    color: #fff;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%); /* Centers the tooltip horizontally */
+    font-size: 12px; /* Smaller text size */
+    line-height: 1.4; /* Adjust for readability */
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+  
