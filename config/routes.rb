@@ -6,5 +6,6 @@ Rails.application.routes.draw do
     end
   end
   post '/slack/commands', to: 'slack#commands'
-    
+  post '/slack/interactive', to: 'slack#interactive'  
+  
 end
