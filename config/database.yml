@@ -79,6 +79,12 @@ test:
 #
 production:
   <<: *default
-  database: rootly_clone_db
-  username: ninad
-  password: <%= ENV["ROOTLY_CLONE_DATABASE_PASSWORD"] %>
+  adapter: postgresql
+  encoding: unicode
+  database: <%= ENV['DATABASE_NAME'] %>
+  pool: 5
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
+  port: 5432
+  timeout: 5000
