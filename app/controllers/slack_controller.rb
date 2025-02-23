@@ -1,6 +1,5 @@
 class SlackController < ApplicationController
     skip_before_action :verify_authenticity_token
-  
     # Slack command handler
     def commands
       command_text = params[:text].split(' ', 2)
@@ -188,6 +187,7 @@ class SlackController < ApplicationController
       if response['ok']
         channel_id = response['channel']['id']
         invite_user_to_channel(channel_id, user_id)
+        return channel_id
       else
         Rails.logger.error("Error creating Slack channel: #{response['error']}")
         nil
@@ -263,11 +263,13 @@ class SlackController < ApplicationController
     # Resolve an incident in the Slack channel
     def resolve_incident_in_channel(channel_id)
       incident = Incident.find_by(slack_channel_id: channel_id, status: 'active')
-  
       if incident
         incident.update(status: 'resolved', resolved_at: Time.now)
-        resolution_time = distance_of_time_in_words(incident.declared_at, incident.resolved_at)
+        resolution_duration = (incident.resolved_at - incident.declared_at) / 60
+        resolution_time = "#{resolution_duration.to_i} minutes"
+        incident.update(resolution_time: resolution_time)
         render plain: "Incident resolved: #{incident.title}. Time to resolution: #{resolution_time}", status: :ok
+        return
       else
         render plain: "No active incidents in this channel to resolve", status: :ok
       end
