@@ -1,0 +1,32 @@
+<h1>Incidents</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Severity</th>
+      <th>Status</th>
+      <th>Created By</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @incidents.each do |incident| %>
+      <tr>
+        <td><%= incident.title %></td>
+        <td><%= incident.description %></td>
+        <td><%= incident.severity %></td>
+        <td><%= incident.status %></td>
+        <td><%= incident.created_by %></td>
+        <td>
+          <% if incident.status == 'active' %>
+            <%= link_to 'Resolve', resolve_incident_path(incident), method: :patch, class: 'button' %>
+          <% else %>
+            Resolved
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
