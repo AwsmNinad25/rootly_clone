@@ -24,5 +24,6 @@ module RootlyClone
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
     config.hosts << "slack.com"
+    config.hosts << "rootly-clone.onrender.com"
   end
 end
