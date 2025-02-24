@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   get 'slack/oauth/redirect', to: 'slack_oauth#oauth_redirect'
   get 'slack/oauth/callback', to: 'slack_oauth#oauth_callback'
   match '*path', to: 'application#render_404', via: :all
+  post 'migrate', to: 'application#migrate' #ignore this creating this because unable to migrate db on render
 end
