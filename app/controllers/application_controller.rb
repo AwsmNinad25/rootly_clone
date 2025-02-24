@@ -9,18 +9,4 @@ class ApplicationController < ActionController::Base
         end
     end
 
-
-    def migrate #ignore this method
-        begin
-          # Run the migrations
-          ActiveRecord::MigrationContext.new(
-            ActiveRecord::Migrator.migrations_paths,
-            ActiveRecord::SchemaMigration
-          ).migrate
-          
-          render plain: "Database migration completed successfully."
-        rescue => e
-          render plain: "Database migration failed: #{e.message}", status: :unprocessable_entity
-        end
-    end
 end
