@@ -1,204 +1,181 @@
-/* Incident Dashboard Heading */
-.incident-dashboard-heading {
-    text-align: center;
-    font-family: 'Arial', sans-serif;
-    color: #6a4c93;
-    font-size: 2.5em;
-    margin-bottom: 40px;
+/* Body */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle, #6a4c93 0%, #333 100%);
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
   }
   
-  /* Incidents Container */
+  /* Dashboard Heading */
+  .dashboard-heading {
+    text-align: center;
+    color: #fff;
+    font-size: 3rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+    margin-bottom: 50px;
+  }
+  
+  /* Incident Container */
   .incidents-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 0 20px;
+    width: 100%;
     max-width: 1200px;
-    margin: 0 auto;
   }
   
   /* Incident Card */
   .incident-card {
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
     padding: 20px;
-    width: 300px;
-    transition: transform 0.3s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
   
   .incident-card:hover {
-    transform: scale(1.02);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Card Header */
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
   }
   
   /* Incident Title */
   .incident-title {
-    color: #6a4c93;
-    font-size: 1.3em;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
-  
-  /* Incident Description */
-  .incident-description {
-    color: #333;
-    margin-bottom: 15px;
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: 600;
   }
   
   /* Incident Severity */
   .incident-severity {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 50%;
-    color: white;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(45deg, #daa520, #ffdf00);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
   
   .severity-high {
-    background-color: #ff6b6b;
+    background: linear-gradient(45deg, #ff4b5c, #ff5e7b);
   }
   
   .severity-medium {
-    background-color: #ffca3a;
+    background: linear-gradient(45deg, #ffac3e, #ffba55);
   }
   
   .severity-low {
-    background-color: #8ac926;
+    background: linear-gradient(45deg, #30cfd0, #34e4ea);
   }
   
-  /* Incident Status */
-  .incident-status {
-    color: #555;
-    margin-top: 10px;
-  }
-  
-  .incident-status-active {
-    color: #ff6b6b;
-  }
-  
-  .incident-status-resolved {
-    color: #2ec4b6;
-    font-weight: bold;
-  }
-  
-  /* Incident Created By */
-  .incident-created-by {
-    color: #999;
-    margin-top: 5px;
-  }
-  
-/* Pagination Container */
-.pagination-container {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  /* Pagination Styling */
-  .pagination {
-    display: inline-block;
-  }
-  
-  /* Pagination Links - Unselected & Selected */
-  .pagination a, .pagination span {
-    color: #6a4c93;
-    padding: 8px 14px;
-    text-decoration: none;
-    margin: 0 -5px;
-    border-radius: 50%;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    border: 1px solid transparent; /* Remove any borders */
-  }
-  
-  /* Hover effect for pagination links */
-  .pagination a:hover {
-    background-color: #6a4c93;
-    color: white;
-  }
-  
-  /* Styling the active/current page */
-  .pagination .current {
-    background-color: #6a4c93;
-    color: white;
-    font-weight: bold;
-    border: none; /* Remove border on active page */
-    cursor: default;
-  }
-  
-  /* Round design for all pagination elements */
-  .pagination a, .pagination span {
-    display: inline-block;
-    text-align: center;
-    line-height: 20px;
-  }
-  
-  /* Reduce gaps between pagination links */
-  .pagination {
-    gap: 3px;
-  }
-  /* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
-  }
-  
-  /* Modal Content */
-  .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 50%; /* Adjust the width based on your design */
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    text-align: center;
-  }
-  
-  /* Close Button */
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  .close:hover,
-  .close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-  }
+  /* Tooltip */
   .tooltip {
     position: relative;
-    display: inline-block;
-    cursor: pointer;
   }
   
   .tooltip .tooltip-text {
     visibility: hidden;
-    width: 200px; /* Adjust width if needed */
+    width: 240px;
     background-color: #6a4c93;
     color: #fff;
     text-align: center;
-    padding: 5px 10px;
-    border-radius: 5px;
+    border-radius: 6px;
+    padding: 8px;
     position: absolute;
     z-index: 1;
     bottom: 125%;
     left: 50%;
-    transform: translateX(-50%); /* Centers the tooltip horizontally */
-    font-size: 12px; /* Smaller text size */
-    line-height: 1.4; /* Adjust for readability */
+    transform: translateX(-50%);
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s ease;
   }
   
   .tooltip:hover .tooltip-text {
     visibility: visible;
     opacity: 1;
+  }
+  
+  /* Incident Footer */
+  .incident-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    color: #eee;
+  }
+  
+  .incident-status-active {
+    background-color: #ff6b6b;
+    padding: 6px 12px;
+    border-radius: 12px;
+    color: #fff;
+  }
+  
+  .incident-status-resolved {
+    background-color: #2ec4b6;
+    padding: 6px 12px;
+    border-radius: 12px;
+    color: #fff;
+  }
+  
+  /* Pagination */
+  .pagination-container {
+    text-align: center;
+    margin-top: 40px;
+  }
+  
+  .pagination a, .pagination span {
+    color: #fff;
+    padding: 8px 12px;
+    text-decoration: none;
+    margin: 0 4px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .pagination a:hover, .pagination .current {
+    background-color: #6a4c93;
+    color: white;
+    font-weight: bold;
+  }
+  
+  /* Media Queries */
+  @media (max-width: 768px) {
+    .incident-card {
+      max-width: 100%;
+    }
+  
+    .dashboard-heading {
+      font-size: 2.5rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .dashboard-heading {
+      font-size: 2rem;
+    }
+  
+    .incident-title {
+      font-size: 1.4rem;
+    }
   }
   

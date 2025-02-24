@@ -1,26 +1,14 @@
 <%= stylesheet_link_tag 'incidents', media: 'all', 'data-turbolinks-track': 'reload' %>
-
-<h1 class="incident-dashboard-heading">
+<div class="main">
+<h1 class="dashboard-heading">
   Incident Dashboard
 </h1>
 
 <div class="incidents-container">
   <% @incidents.each do |incident| %>
     <div class="incident-card">
-      <h2 class="incident-title">
-        <%= incident.title.titleize() %>
-      </h2>
-
-      <p class="tooltip" style="color: #333; margin-bottom: 15px;">
-        <% if incident.description.length > 80 %>
-          <%= truncate(incident.description.humanize, length: 80) %>
-          <span class="tooltip-text"><%= incident.description %></span>
-        <% else %>
-          <%= incident.description.humanize %>
-        <% end %>
-      </p>
-
-      <div style="margin-top: 10px;">
+      <div class="card-header">
+        <h2 class="incident-title"><%= incident.title.titleize() %></h2>
         <span class="incident-severity <%= case incident.severity
           when 'high' then 'severity-high'
           when 'medium' then 'severity-medium'
@@ -31,18 +19,28 @@
         </span>
       </div>
 
-      <p class="incident-status">
-        Status:
-        <% if incident.status == 'active' %>
-          <span class="incident-status-active">Active</span>
+      <p class="tooltip incident-description">
+        <% if incident.description.length > 80 %>
+          <%= truncate(incident.description.humanize, length: 80) %>
+          <span class="tooltip-text"><%= incident.description %></span>
         <% else %>
-          <span class="incident-status-resolved">Resolved</span>
+          <%= incident.description.humanize %>
         <% end %>
       </p>
 
-      <p class="incident-created-by">
-        Created by: <%= incident.created_by %>
-      </p>
+      <div class="incident-footer">
+        <p class="incident-status">
+          <% if incident.status == 'active' %>
+            <span class="incident-status-active">Active</span>
+          <% else %>
+            <span class="incident-status-resolved">Resolved</span>
+          <% end %>
+        </p>
+
+        <p class="incident-created-by">
+          Created by: <%= incident.created_by %>
+        </p>
+      </div>
     </div>
   <% end %>
 </div>
@@ -50,4 +48,5 @@
 <!-- Pagination at the bottom -->
 <div class="pagination-container">
   <%= paginate @incidents %>
+</div>
 </div>
