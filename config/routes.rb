@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     end
   end
   post '/slack/commands', to: 'slack#commands'
-  post '/slack/interactive', to: 'slack#interactive'  
-  
+  post '/slack/interactive', to: 'slack#interactive'
+  get 'slack/oauth/redirect', to: 'slack_oauth#oauth_redirect'
+  get 'slack/oauth/callback', to: 'slack_oauth#oauth_callback'
 end
