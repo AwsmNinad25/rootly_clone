@@ -24,13 +24,13 @@ class SlackOauthController < ApplicationController
   
       if result[:success]
         # Store the team_id, access_token, and team_name in your database for later use
-        SlackApp.create!(
-          team_id: result[:team_id],
-          access_token: result[:access_token],
-          team_name: result[:team_name]
-        )
+        slack_app = SlackApp.find_or_initialize_by(team_id: result[:team_id])
+        slack_app.access_token = result[:access_token]
+        slack_app.team_name = result[:team_name]
+
+        # Save the record (this will update if it already exists)
+        slack_app.save!
         
-        # Optionally store the access token in the session
         session[:slack_access_token] = result[:access_token]
         
         # Redirect to Slack app page (optional)
@@ -41,4 +41,3 @@ class SlackOauthController < ApplicationController
       end
     end
 end
-  
