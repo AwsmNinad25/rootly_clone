@@ -23,8 +23,18 @@ class SlackOauthController < ApplicationController
       result = service.call
   
       if result[:success]
+        # Store the team_id, access_token, and team_name in your database for later use
+        SlackApp.create!(
+          team_id: result[:team_id],
+          access_token: result[:access_token],
+          team_name: result[:team_name]
+        )
+        
+        # Optionally store the access token in the session
         session[:slack_access_token] = result[:access_token]
-        redirect_to "https://slack.com/app_redirect" ,allow_other_host: true, notice: "Successfully authenticated with Slack!"
+        
+        # Redirect to Slack app page (optional)
+        redirect_to "https://slack.com/app_redirect", allow_other_host: true, notice: "Successfully authenticated with Slack!"
       else
         flash[:error] = "Failed to authenticate with Slack: #{result[:error]}"
         redirect_to root_path
