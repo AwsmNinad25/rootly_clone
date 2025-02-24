@@ -8,4 +8,5 @@ class ApplicationController < ActionController::Base
           format.json { head :not_found }
         end
     end
+
 end

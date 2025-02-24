@@ -14,7 +14,12 @@ class SlackOauthService
       parsed_response = JSON.parse(response.body) rescue {}
   
       if response.success? && parsed_response['ok']
-        { success: true, access_token: parsed_response['access_token'] }
+        { 
+          success: true, 
+          access_token: parsed_response['access_token'],
+          team_id: parsed_response['team']['id'],  # Capture team_id here
+          team_name: parsed_response['team']['name']
+        }
       else
         { success: false, error: parsed_response['error'] || 'Unknown error' }
       end

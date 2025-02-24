@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_23_152220) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_24_055207) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,6 +26,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_23_152220) do
     t.datetime "declared_at"
     t.datetime "resolved_at"
     t.string "resolution_time"
+  end
+
+  create_table "slack_apps", force: :cascade do |t|
+    t.string "team_id"
+    t.string "access_token"
+    t.string "team_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
