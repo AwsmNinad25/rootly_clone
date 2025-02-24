@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found</title>
+  <%= stylesheet_link_tag 'errors', media: 'all', 'data-turbo-track': 'reload' %>
+</head>
+<body>
+  <div class="container">
+    <h1>404</h1>
+    <p>Oops! It seems like the page you're looking for doesn't exist.</p>
+    <%= link_to 'Go back to the dashboard', root_path, class: 'text-blue-500 font-semibold' %>
+  </div>
+</body>
+</html>

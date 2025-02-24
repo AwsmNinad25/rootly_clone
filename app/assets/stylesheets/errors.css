@@ -1,0 +1,43 @@
+/* app/assets/stylesheets/errors.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f9fafb;
+  }
+  
+  .container {
+    text-align: center;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    font-size: 72px;
+    color: #3b82f6;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 18px;
+    color: #4b5563;
+    margin-bottom: 20px;
+  }
+  
+  a {
+    font-size: 16px;
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
