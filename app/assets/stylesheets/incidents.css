@@ -186,6 +186,10 @@ body {
 
 /* Media Queries */
 @media (max-width: 768px) {
+
+  .incidents-container{
+    grid-template-columns: auto !important;
+  }
   .incident-card {
     max-width: 100%;
   }
@@ -200,7 +204,20 @@ body {
     font-size: 2rem;
   }
 
+  .incidents-container{
+    grid-template-columns: auto !important;
+  }
+
   .incident-title {
     font-size: 1.4rem;
+  }
+
+  .sort-container {
+    flex-direction: column;
+  }
+
+  .sort-dropdown {
+    width: 100%;
+    margin-top: 10px;
   }
 }

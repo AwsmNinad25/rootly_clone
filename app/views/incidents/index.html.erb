@@ -1,4 +1,4 @@
-<%= stylesheet_link_tag 'incidents', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= stylesheet_link_tag 'incidents', media: 'all', 'data-turbo-track': 'reload' %>
 <div class="main">
   <h1 class="dashboard-heading">
     Incident Dashboard
@@ -7,55 +7,60 @@
   <!-- Sort Dropdown -->
   <div class="sort-container">
     <label for="sort-order" class="sort-label">Sort by Title:</label>
-    <select id="sort-order" class="sort-dropdown" data-turbo-action="change" onchange="window.location.href = '?sort_order=' + this.value">
-      <option value="asc" <%= 'selected' if params[:sort_order] == 'asc' %>>Ascending</option>
-      <option value="desc" <%= 'selected' if params[:sort_order] == 'desc' %>>Descending</option>
-    </select>
-  </div>
-
-  <div class="incidents-container">
-    <% @incidents.each do |incident| %>
-      <div class="incident-card">
-        <div class="card-header">
-          <h2 class="incident-title"><%= incident.title.titleize %></h2>
-          <span class="incident-severity <%= case incident.severity
-            when 'high' then 'severity-high'
-            when 'medium' then 'severity-medium'
-            when 'low' then 'severity-low'
-            else ''
-          end %>">
-            <%= incident.severity.capitalize %>
-          </span>
-        </div>
-
-        <p class="tooltip incident-description">
-          <% if incident.description.length > 80 %>
-            <%= truncate(incident.description.humanize, length: 80) %>
-            <span class="tooltip-text"><%= incident.description %></span>
-          <% else %>
-            <%= incident.description.humanize %>
-          <% end %>
-        </p>
-
-        <div class="incident-footer">
-          <p class="incident-status">
-            <% if incident.status == 'active' %>
-              <span class="incident-status-active">Active</span>
-            <% else %>
-              <span class="incident-status-resolved">Resolved</span>
-            <% end %>
-          </p>
-
-          <p class="incident-created-by">
-            Created by: <%= incident.created_by %>
-          </p>
-        </div>
-      </div>
+    <%= form_with url: incidents_path, method: :get, data: { turbo_frame: "incidents-list" }, local: true do %>
+      <select id="sort-order" name="sort_order" class="sort-dropdown" onchange="this.form.submit()">
+        <option value="asc" <%= 'selected' if params[:sort_order] == 'asc' %>>Ascending</option>
+        <option value="desc" <%= 'selected' if params[:sort_order] == 'desc' %>>Descending</option>
+      </select>
     <% end %>
   </div>
 
-  <!-- Pagination at the bottom -->
-  <div class="pagination-container">
-    <%= paginate @incidents %>
-  </div>
+  <!-- Turbo Frame for Incident List -->
+  <turbo-frame id="incidents-list">
+    <div class="incidents-container">
+      <% @incidents.each do |incident| %>
+        <div class="incident-card">
+          <div class="card-header">
+            <h2 class="incident-title"><%= incident.title.titleize %></h2>
+            <span class="incident-severity <%= case incident.severity
+              when 'high' then 'severity-high'
+              when 'medium' then 'severity-medium'
+              when 'low' then 'severity-low'
+              else ''
+            end %>">
+              <%= incident.severity.capitalize %>
+            </span>
+          </div>
+
+          <p class="tooltip incident-description">
+            <% if incident.description.length > 80 %>
+              <%= truncate(incident.description.humanize, length: 80) %>
+              <span class="tooltip-text"><%= incident.description %></span>
+            <% else %>
+              <%= incident.description.humanize %>
+            <% end %>
+          </p>
+
+          <div class="incident-footer">
+            <p class="incident-status">
+              <% if incident.status == 'active' %>
+                <span class="incident-status-active">Active</span>
+              <% else %>
+                <span class="incident-status-resolved">Resolved</span>
+              <% end %>
+            </p>
+
+            <p class="incident-created-by">
+              Created by: <%= incident.created_by %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-container">
+      <%= paginate @incidents %>
+    </div>
+  </turbo-frame>
 </div>
