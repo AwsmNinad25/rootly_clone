@@ -34,7 +34,7 @@ class SlackOauthController < ApplicationController
         session[:slack_access_token] = result[:access_token]
         
         # Redirect to Slack app page (optional)
-        redirect_to "https://slack.com/app_redirect", allow_other_host: true, notice: "Successfully authenticated with Slack!"
+        redirect_to "https://app.slack.com/client/#{result[:team_id]}", allow_other_host: true, notice: "Successfully authenticated with Slack!"
       else
         flash[:error] = "Failed to authenticate with Slack: #{result[:error]}"
         redirect_to root_path
